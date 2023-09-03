@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:bookworm-backports
 RUN apt update -y
 RUN apt install -y  mariadb-server 
 
