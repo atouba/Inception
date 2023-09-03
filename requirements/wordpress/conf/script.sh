@@ -2,31 +2,23 @@
 set -xe
 sleep 5
 
-#cp /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php
 chown -R www-data:www-data /var/www/wordpress
-#cd wordpress
-
-#rm -rf wp-config.php
 
 rm -f /var/www/wordpress/wp-config.php
 
-#wp core install --config-file=/var/www/wordpress/wp-config.php --allow-root --dbhost='mariadb' --dbname="wordpress" --dbuser="atouba" --dbpass="12345"
-#wp config create --config-file=/var/www/wordpress/wp-config.php --allow-root --dbhost='mariadb' --dbname="wordpress" --dbuser="atouba" --dbpass="12345"
-wp config create --allow-root --dbname='wordpress' --dbuser='atouba' --dbpass='12345' --dbhost='mariadb'
+wp config create --allow-root --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASSWORD --dbhost=$DB_HOST
 
-# cd wordpress
 chmod +x wp-config.php 
 
-wp core install --allow-root --url='atouba.42.fr' --title="title" --admin_user="admin" --admin_password="ADMIN_PSW" --admin_email="a@kfdk.com"
-#wp user --allow-root create "P_USER" "P_EMAIL@sd.com" --role=author --user_pass="P_USER"
+wp core install --allow-root --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_MAIL
 create_user() {
-    if wp user list --allow-root | grep -q "P_USER"; then
+    if wp user list --allow-root | grep -q $WP_USER; then
         echo "user already exists"
         return
     fi
 
-    wp user create "P_USER" "P_EMAIL@sd.com" \
-        --role=author --user_pass="P_USER" \
+    wp user create $WP_USER $WP_USER_MAIL \
+        --role=author --user_pass=$WP_USER_PASSWORD \
         --allow-root
 
     if [ $? -eq 0 ]; then
