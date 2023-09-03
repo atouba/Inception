@@ -18,6 +18,24 @@ wp config create --allow-root --dbname='wordpress' --dbuser='atouba' --dbpass='1
 chmod +x wp-config.php 
 
 wp core install --allow-root --url='atouba.42.fr' --title="title" --admin_user="admin" --admin_password="ADMIN_PSW" --admin_email="a@kfdk.com"
-wp user --allow-root create "P_USER" "P_EMAIL@sd.com" --role=author --user_pass="P_USER"
+#wp user --allow-root create "P_USER" "P_EMAIL@sd.com" --role=author --user_pass="P_USER"
+create_user() {
+    if wp user list --allow-root | grep -q "P_USER"; then
+        echo "user already exists"
+        return
+    fi
+
+    wp user create "P_USER" "P_EMAIL@sd.com" \
+        --role=author --user_pass="P_USER" \
+        --allow-root
+
+    if [ $? -eq 0 ]; then
+        echo "user created"
+    else
+        echo "can't create user"
+    fi
+}
+
+create_user
 
 /usr/sbin/php-fpm8.2 -F
