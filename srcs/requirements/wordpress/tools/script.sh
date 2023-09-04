@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+
 sleep 5
 
 chown -R www-data:www-data /var/www/wordpress
@@ -13,7 +13,6 @@ chmod +x wp-config.php
 wp core install --allow-root --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_MAIL
 create_user() {
     if wp user list --allow-root | grep -q $WP_USER; then
-        echo "user already exists"
         return
     fi
 
