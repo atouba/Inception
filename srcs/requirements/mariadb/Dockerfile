@@ -12,11 +12,3 @@ RUN chown -R mysql:mysql /var/lib/mysql
 
 ENTRYPOINT ["/script.sh"]
 CMD ["mysqld", "--user=mysql"]
-#CMD ["mariadb", "--user=mysql"]
-
-# CMD ["service", "mariadb","start"]
-
-#CMD ["bash", "script2.sh"]
-#CMD ["mysqld_safe", "--user=mysql"]
-
-#CMD ["mysql", "<",  "/var/www/initial_db.sql"]
